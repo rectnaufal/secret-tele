@@ -1,0 +1,47 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body>
+        <script>
+Swal.fire({
+  title: 'Send Your Secret Message For Me',
+  input: 'text',
+  inputAttributes: {
+    autocapitalize: 'off'
+  },
+  showCancelButton: false,
+  confirmButtonText: 'Send',
+  showLoaderOnConfirm: true,
+  preConfirm: (secret) => {
+    return fetch(`https://api.telegram.org/bot828733467:AAGa7_V9v7SLkwgH9XT-J1VGA2oswq_6q4I/sendMessage?chat_id=660331071&text=${secret}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(response.statusText)
+        }
+        return response.json()
+      })
+      .catch(error => {
+        Swal.showValidationMessage(
+          `Request failed: ${error}`
+        )
+      })
+  },
+  allowOutsideClick: () => !Swal.isLoading()
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+      title: `Your Secret sent`,
+    })
+
+  }
+})
+
+        </script>
+    </body>
+    </html>
